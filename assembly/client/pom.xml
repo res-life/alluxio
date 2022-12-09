@@ -43,19 +43,24 @@
     </dependency>
     <dependency>
       <groupId>org.alluxio</groupId>
-      <artifactId>alluxio-examples</artifactId>
+      <artifactId>alluxio-core-server-common</artifactId>
       <version>${project.version}</version>
     </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.alluxio</groupId>-->
+<!--      <artifactId>alluxio-examples</artifactId>-->
+<!--      <version>${project.version}</version>-->
+<!--    </dependency>-->
     <dependency>
       <groupId>org.alluxio</groupId>
       <artifactId>alluxio-shell</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.alluxio</groupId>
-      <artifactId>alluxio-stress-shell</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.alluxio</groupId>-->
+<!--      <artifactId>alluxio-stress-shell</artifactId>-->
+<!--      <version>${project.version}</version>-->
+<!--    </dependency>-->
   </dependencies>
 
   <build>
