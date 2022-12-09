@@ -24,7 +24,7 @@
 
   <modules>
     <module>client</module>
-    <module>hadoop</module>
+<!--    <module>hadoop</module>-->
   </modules>
 
   <properties>
