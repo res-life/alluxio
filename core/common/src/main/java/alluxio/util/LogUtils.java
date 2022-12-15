@@ -65,7 +65,7 @@ public final class LogUtils {
           logInfo.setMessage("log is null.");
         }
       } catch (Exception e) {
-        String msg = String.format("Exception occurred when setting log level, log name %s, log level %s: ",
+        String msg = String.format("Exception occurred when setting log level, log name %s, log level %s",
             e.getMessage(), logName, level);
         logInfo.setMessage(msg);
       }

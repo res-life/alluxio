@@ -54,8 +54,10 @@ import net.bytebuddy.utility.RandomString;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 import org.apache.curator.test.TestingServer;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -139,7 +141,26 @@ public final class MultiProcessCluster {
       Map<Integer, Map<PropertyKey, String>> workerProperties, int numMasters, int numWorkers,
       String clusterName, boolean noFormat,
       List<PortCoordination.ReservedPort> ports) {
-    LogManager.getLogger(MultiProcessCluster.class).setLevel(Level.DEBUG);
+
+    String logName = MultiProcessCluster.class.getName();
+    String logLevel = "DEBUG";
+    try {
+      LoggerContext ctx = (LoggerContext) (LogManager.getContext(false));
+      org.apache.logging.log4j.core.config.Configuration config = ctx.getConfiguration();
+      LoggerConfig loggerConfig = config.getLoggerConfig(logName);
+      if (loggerConfig != null) {
+        Level toLevel = Level.getLevel(logLevel);
+        loggerConfig.setLevel(toLevel);
+        ctx.updateLoggers();
+      } else {
+        String msg = String.format("Logger %s is null.", logName);
+        throw new RuntimeException(msg);
+      }
+    } catch (Exception e) {
+      String msg = String.format("Exception occurred when setting log level, log name %s, log level %s",
+          e.getMessage(), logName, logLevel);
+      throw new RuntimeException(msg);
+    }
 
     Preconditions.checkState(
         ports.size() >= numMasters * PORTS_PER_MASTER + numWorkers * PORTS_PER_WORKER,

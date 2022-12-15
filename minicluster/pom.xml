@@ -40,7 +40,7 @@
       <artifactId>curator-test</artifactId>
       <scope>compile</scope>
       <exclusions>
-        <!-- excludes log4j 1.2 to avoid CVE issues -->
+        <!-- excludes log4j 1.x to avoid CVE issues -->
         <exclusion>
           <groupId>log4j</groupId>
           <artifactId>log4j</artifactId>

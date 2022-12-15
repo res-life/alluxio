@@ -49,11 +49,11 @@
       <artifactId>slf4j-api</artifactId>
       <scope>provided</scope>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>org.apache.logging.log4j</groupId>-->
-<!--      <artifactId>log4j-slf4j-impl</artifactId>-->
-<!--      <scope>provided</scope>-->
-<!--    </dependency>-->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <profiles>
@@ -81,7 +81,7 @@
           <version>${ufs.hadoop.version}</version>
           <exclusions>
             <exclusion>
-              <!-- excludes log4j 1.2 to avoid CVE issues -->
+              <!-- excludes log4j 1.x to avoid CVE issues -->
               <groupId>log4j</groupId>
               <artifactId>log4j</artifactId>
             </exclusion>
@@ -114,7 +114,7 @@
           <version>${ufs.hadoop.version}</version>
           <exclusions>
             <exclusion>
-              <!-- excludes log4j 1.2 to avoid CVE issues -->
+              <!-- excludes log4j 1.x to avoid CVE issues -->
               <groupId>log4j</groupId>
               <artifactId>log4j</artifactId>
             </exclusion>

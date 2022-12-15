@@ -52,6 +52,13 @@
       <artifactId>hadoop-client</artifactId>
     </dependency>
     <dependency>
+      <!-- Fix CVE: https://github.com/advisories/GHSA-fv22-xp26-mm9w -->
+      <!-- hadoop client/common 3.2.4/3.3.1 use woodstox-core 5.3.0 version which has CVE -->
+      <groupId>com.fasterxml.woodstox</groupId>
+      <artifactId>woodstox-core</artifactId>
+      <version>${woodstox-core.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>

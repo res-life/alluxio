@@ -169,22 +169,23 @@
     <libcephfs.version>0.0.1</libcephfs.version>
     <jnr-fuse.version>0.5.5</jnr-fuse.version>
     <kerby.version>1.0.1</kerby.version>
+    <woodstox-core.version>5.4.0</woodstox-core.version>
   </properties>
 
   <modules>
     <module>assembly</module>
     <module>core</module>
-<!--    <module>examples</module>-->
-<!--    <module>integration</module>-->
+    <module>examples</module>
+    <module>integration</module>
 <!--    <module>logserver</module>-->
-<!--    <module>microbench</module>-->
-<!--    <module>minicluster</module>-->
-<!--    <module>job</module>-->
+    <module>microbench</module>
+    <module>minicluster</module>
+    <module>job</module>
     <module>shaded</module>
     <module>shell</module>
-<!--    <module>stress</module>-->
+    <module>stress</module>
     <module>table</module>
-<!--    <module>tests</module>-->
+    <module>tests</module>
     <module>underfs</module>
     <module>webui</module>
   </modules>
@@ -473,9 +474,20 @@
             <artifactId>servlet-api</artifactId>
           </exclusion>
           <exclusion>
-            <!-- excludes log4j 1.2 to avoid CVE issues -->
+            <!-- excludes log4j 1.x to avoid CVE issues -->
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
+          </exclusion>
+          <exclusion>
+            <!-- excludes log4j 1.x to avoid CVE issues -->
+            <groupId>ch.qos.reload4j</groupId>
+            <artifactId>reload4j</artifactId>
+          </exclusion>
+          <exclusion>
+            <!-- excludes log4j 1.x to avoid CVE issues -->
+            <!-- StaticLoggerBinder class refer to log4j 1.x org.apache.log4j.Level -->
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-reload4j</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -587,10 +599,14 @@
         <version>3.5.5</version>
         <exclusions>
           <exclusion>
-            <!-- excludes log4j 1.2 to avoid CVE issues -->
+            <!-- excludes log4j 1.x to avoid CVE issues -->
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
           </exclusion>
+            <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-log4j12</artifactId>
+            </exclusion>
         </exclusions>
       </dependency>
       <dependency>

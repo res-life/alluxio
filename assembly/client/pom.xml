@@ -43,24 +43,27 @@
     </dependency>
     <dependency>
       <groupId>org.alluxio</groupId>
-      <artifactId>alluxio-core-server-common</artifactId>
+      <artifactId>alluxio-examples</artifactId>
       <version>${project.version}</version>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>org.alluxio</groupId>-->
-<!--      <artifactId>alluxio-examples</artifactId>-->
-<!--      <version>${project.version}</version>-->
-<!--    </dependency>-->
     <dependency>
       <groupId>org.alluxio</groupId>
       <artifactId>alluxio-shell</artifactId>
       <version>${project.version}</version>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>org.alluxio</groupId>-->
-<!--      <artifactId>alluxio-stress-shell</artifactId>-->
-<!--      <version>${project.version}</version>-->
-<!--    </dependency>-->
+    <dependency>
+      <groupId>org.alluxio</groupId>
+      <artifactId>alluxio-stress-shell</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <!-- Fix CVE: https://github.com/advisories/GHSA-fv22-xp26-mm9w -->
+      <!-- hadoop common use 5.3.0 version which has CVE -->
+      <groupId>com.fasterxml.woodstox</groupId>
+      <artifactId>woodstox-core</artifactId>
+      <version>${woodstox-core.version}</version>
+    </dependency>
   </dependencies>
 
   <build>

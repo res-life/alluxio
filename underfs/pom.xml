@@ -23,23 +23,23 @@
   <description>Parent POM for different implementations of Alluxio under file system</description>
 
   <modules>
-<!--    <module>abfs</module>-->
-<!--    <module>adl</module>-->
-<!--    <module>cephfs</module>-->
-<!--    <module>cephfs-hadoop</module>-->
-<!--    <module>cos</module>-->
-<!--    <module>cosn</module>-->
-<!--    <module>gcs</module>-->
-<!--    <module>hdfs</module>-->
-<!--    <module>kodo</module>-->
+    <module>abfs</module>
+    <module>adl</module>
+    <module>cephfs</module>
+    <module>cephfs-hadoop</module>
+    <module>cos</module>
+    <module>cosn</module>
+    <module>gcs</module>
+    <module>hdfs</module>
+    <module>kodo</module>
     <module>local</module>
-<!--    <module>oss</module>-->
-<!--    <module>ozone</module>-->
+    <module>oss</module>
+    <module>ozone</module>
     <module>s3a</module>
-<!--    <module>swift</module>-->
-<!--    <module>wasb</module>-->
-<!--    <module>web</module>-->
-<!--    <module>obs</module>-->
+    <module>swift</module>
+    <module>wasb</module>
+    <module>web</module>
+    <module>obs</module>
   </modules>
 
   <properties>
@@ -71,11 +71,11 @@
       <artifactId>slf4j-api</artifactId>
       <scope>provided</scope>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>org.apache.logging.log4j</groupId>-->
-<!--      <artifactId>log4j-slf4j-impl</artifactId>-->
-<!--      <scope>provided</scope>-->
-<!--    </dependency>-->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>
