@@ -12,22 +12,18 @@
 package alluxio.util;
 
 import alluxio.wire.LogInfo;
-
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.impl.Jdk14Logger;
-import org.apache.commons.logging.impl.Log4JLogger;
-import org.apache.log4j.Category;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.impl.Log4jLoggerAdapter;
 
+import javax.annotation.concurrent.ThreadSafe;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.stream.Collectors;
-import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * Utility methods for working with log.
@@ -48,73 +44,36 @@ public final class LogUtils {
    * @throws IOException if an I/O error occurs
    */
   public static LogInfo setLogLevel(String logName, String level) throws IOException {
-    LogInfo result = new LogInfo();
+    LogInfo logInfo = new LogInfo();
     if (StringUtils.isNotBlank(logName)) {
-      result.setLogName(logName);
-      Log log = LogFactory.getLog(logName);
-      Logger logger = LoggerFactory.getLogger(logName);
-      if (log instanceof Log4JLogger) {
-        process(((Log4JLogger) log).getLogger(), level, result);
-      } else if (log instanceof Jdk14Logger) {
-        process(((Jdk14Logger) log).getLogger(), level, result);
-      } else if (logger instanceof Log4jLoggerAdapter) {
-        try {
-          Field field = Log4jLoggerAdapter.class.getDeclaredField("logger");
-          field.setAccessible(true);
-          org.apache.log4j.Logger log4jLogger = (org.apache.log4j.Logger) field.get(logger);
-          process(log4jLogger, level, result);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-          result.setMessage(e.getMessage());
+      try {
+        LoggerContext ctx = (LoggerContext) (LogManager.getContext(false));
+        Configuration config = ctx.getConfiguration();
+        LoggerConfig loggerConfig = config.getLoggerConfig(logName);
+        if (loggerConfig != null) {
+          Level toLevel = Level.getLevel(level.toUpperCase());
+          if (toLevel != null) {
+            loggerConfig.setLevel(toLevel);
+            Level originLevel = loggerConfig.getLevel();
+            ctx.updateLoggers();
+            logInfo.setLevel(originLevel.toString());
+            logInfo.setMessage("Setting Level to " + toLevel);
+          } else {
+            logInfo.setMessage("Bad level : " + level);
+          }
+        } else {
+          logInfo.setMessage("log is null.");
         }
-      } else {
-        result.setMessage("Sorry, " + log.getClass() + " not supported.");
+      } catch (Exception e) {
+        String msg = String.format("Exception occurred when setting log level, log name %s, log level %s",
+            e.getMessage(), logName, level);
+        logInfo.setMessage(msg);
       }
     } else {
-      result.setMessage("Please specify a correct logName.");
-    }
-    return result;
-  }
-
-  private static void process(org.apache.log4j.Logger log, String level, LogInfo result)
-      throws IOException {
-    if (log == null) {
-      result.setMessage("log is null.");
-      return;
-    }
-    if (level != null) {
-      if (!level.equals(org.apache.log4j.Level.toLevel(level).toString())) {
-        result.setMessage("Bad level : " + level);
-      } else {
-        log.setLevel(org.apache.log4j.Level.toLevel(level));
-        result.setMessage("Setting Level to " + level);
-      }
-    }
-    org.apache.log4j.Level lev = null;
-    Category category = log;
-    while ((category != null) && ((lev = category.getLevel()) == null)) {
-      category = category.getParent();
-    }
-    if (lev != null) {
-      result.setLevel(lev.toString());
-    }
-  }
-
-  private static void process(java.util.logging.Logger log, String level, LogInfo result) throws
-      IOException {
-    if (log == null) {
-      result.setMessage("log is null.");
-      return;
-    }
-    if (level != null) {
-      log.setLevel(java.util.logging.Level.parse(level));
-      result.setMessage("Setting Level to " + level);
+      logInfo.setMessage("Please specify a correct logName.");
     }
 
-    java.util.logging.Level lev;
-    while ((lev = log.getLevel()) == null) {
-      log = log.getParent();
-    }
-    result.setLevel(lev.toString());
+    return logInfo;
   }
 
   /**

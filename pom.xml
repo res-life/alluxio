@@ -124,7 +124,7 @@
   <properties>
     <argLine></argLine>
     <apache.curator.version>4.2.0</apache.curator.version>
-    <aws.amazonaws.version>1.11.815</aws.amazonaws.version>
+    <aws.amazonaws.version>1.12.261</aws.amazonaws.version>
     <build.path>build</build.path>
     <catalyst.version>1.2.1</catalyst.version>
     <glusterfs-hadoop.version>2.3.13</glusterfs-hadoop.version>
@@ -137,9 +137,9 @@
     <java.version>1.8</java.version>
     <jaxb.version>2.3.3</jaxb.version>
     <jersey.version>2.34</jersey.version>
-    <jetty.version>9.4.46.v20220331</jetty.version>
+    <jetty.version>9.4.48.v20220622</jetty.version>
     <junit.version>4.13.1</junit.version>
-    <log4j.version>2.17.1</log4j.version>
+    <log4j.version>2.17.2</log4j.version>
     <maven.version>3.3.9</maven.version>
     <metrics.version>4.1.11</metrics.version>
     <mockito.version>3.4.4</mockito.version>
@@ -149,10 +149,10 @@
     <prometheus.version>0.8.0</prometheus.version>
     <guava.version>31.0.1-jre</guava.version>
     <parquet.version>1.11.0</parquet.version>
-    <protobuf.version>3.19.2</protobuf.version>
+    <protobuf.version>3.19.6</protobuf.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <slf4j.version>1.7.30</slf4j.version>
-    <jackson.version>2.13.3</jackson.version>
+    <slf4j.version>1.7.32</slf4j.version>
+    <jackson.version>2.14.0</jackson.version>
     <hadoop-cos.version>3.1.0-5.8.5</hadoop-cos.version>
     <cos_api.version>5.6.19</cos_api.version>
     <surefire.forkCount>2</surefire.forkCount>
@@ -169,6 +169,7 @@
     <libcephfs.version>0.0.1</libcephfs.version>
     <jnr-fuse.version>0.5.5</jnr-fuse.version>
     <kerby.version>1.0.1</kerby.version>
+    <woodstox-core.version>5.4.0</woodstox-core.version>
   </properties>
 
   <modules>
@@ -176,7 +177,7 @@
     <module>core</module>
     <module>examples</module>
     <module>integration</module>
-    <module>logserver</module>
+<!--    <module>logserver</module>-->
     <module>microbench</module>
     <module>minicluster</module>
     <module>job</module>
@@ -307,11 +308,6 @@
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>2.7</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-logging</groupId>
-        <artifactId>commons-logging</artifactId>
-        <version>1.2</version>
       </dependency>
       <dependency>
         <groupId>io.dropwizard.metrics</groupId>
@@ -477,6 +473,22 @@
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
           </exclusion>
+          <exclusion>
+            <!-- excludes log4j 1.x to avoid CVE issues -->
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+          </exclusion>
+          <exclusion>
+            <!-- excludes log4j 1.x to avoid CVE issues -->
+            <groupId>ch.qos.reload4j</groupId>
+            <artifactId>reload4j</artifactId>
+          </exclusion>
+          <exclusion>
+            <!-- excludes log4j 1.x to avoid CVE issues -->
+            <!-- StaticLoggerBinder class refer to log4j 1.x org.apache.log4j.Level -->
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-reload4j</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -585,6 +597,17 @@
         <groupId>org.apache.zookeeper</groupId>
         <artifactId>zookeeper</artifactId>
         <version>3.5.5</version>
+        <exclusions>
+          <exclusion>
+            <!-- excludes log4j 1.x to avoid CVE issues -->
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+          </exclusion>
+            <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-log4j12</artifactId>
+            </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
@@ -688,6 +711,12 @@
         <artifactId>log4j-slf4j-impl</artifactId>
         <version>${log4j.version}</version>
       </dependency>
+<!--      <dependency>-->
+<!--        <groupId>org.apache.logging.log4j</groupId>-->
+<!--        <artifactId>log4j-1.2-api</artifactId>-->
+<!--        <version>${log4j.version}</version>-->
+<!--      </dependency>-->
+
       <dependency>
         <groupId>org.apache.kerby</groupId>
         <artifactId>kerby-util</artifactId>
@@ -808,10 +837,10 @@
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-slf4j-impl</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.apache.logging.log4j</groupId>-->
+<!--      <artifactId>log4j-1.2-api</artifactId>-->
+<!--    </dependency>-->
 
     <!-- Dependencies in the test scope. -->
     <dependency>
